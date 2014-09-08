@@ -1,0 +1,31 @@
+            {% regroup calendar by date_start|date:"Y" as points_by_year %}
+
+            <div class="entry-content">
+                {% for year_points in points_by_year %}
+                <table>
+                    <caption>
+                        {{year_points.grouper}}
+                    </caption>
+                    {% regroup year_points.list by date_start|date:"M" as points_by_month %}
+                    {% for month_points in points_by_month %}
+                    <tr>
+                        <td>
+                            <p>{{month_points.grouper}}</p>
+                            {% regroup month_points.list by date_start|date:"d" as points_by_day %}
+                            {% for day_points in points_by_day %}
+                            <p>
+
+                                    {{day_points.grouper}}
+
+                                    {% for item in day_points.list %}
+                                      {{ item.title }}<br>
+                                    {% endfor %}
+
+                            </p>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% endfor %}
+            </div>

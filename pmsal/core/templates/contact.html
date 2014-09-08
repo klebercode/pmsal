@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block nav_contact %} class="active"{% endblock %}
+
+{% block content %}
+
+    <!-- begin:title -->
+    <div class="row-fluid contact">
+        <div class="span12 main-header">
+            <header>
+                <h1>Contato</h1>
+            </header>
+        </div>
+    </div>
+    <!-- end:title -->
+
+    <!-- begin:content -->
+    <div class="row-fluid">
+        <div class="span12 content-wrapper">
+
+            <!-- begin:contact -->
+            <div class="row-fluid content-home">
+                <div class="span7">
+                    <div class="page-header">
+                        <h2>Envie sua mensagem</h2>
+                    </div>
+
+                    {% if contact_success %}
+                    <p>Mensagem enviada com sucesso.</p>
+                    <a href="{% url 'contact' %}" class="btn btn-red">Voltar</a>
+                    {% else %}
+                    <form method="post" action=".">
+                        {% csrf_token %}
+                        {% for field in contact_form %}
+                            {{ field }}
+                            {{ field.errors }}
+                        {% endfor %}
+                        <input type="submit" name="enviar" class="btn btn-red pull-right" value="Enviar mensagem">
+                    </form>
+                    {% endif %}
+                </div>
+
+                <div class="span4 offset1">
+                    <header class="page-header">
+                        <h2>Informações Adicionais</h2>
+                    </header>
+                    <div id="maps"></div>
+                    <br>
+                    <address>
+                        <i class="icon-building"></i> <strong>{{ enterprise.name }}</strong><br>
+                        <i class="icon-home"></i> {{ enterprise.address }}, {{ enterprise.number }}, CEP: {{ enterprise.cep }}<br>
+                        <i class="icon-phone"></i> {{ enterprise.phone1 }}<br>
+                        <i class="icon-envelope"></i> {{ enterprise.email }}<br>
+                        <i class="icon-link"></i> {{ enterprise.site }}<br>
+                    </address>
+                </div>
+            </div>
+            <!-- end:contact -->
+
+        </div>
+    </div>
+    <!-- end:content -->
+
+{% endblock content %}
