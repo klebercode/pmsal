@@ -18,7 +18,11 @@ def enterprise_proc(request):
 
 class EnterpriseExtraContext(object):
     """ Class Based View """
-    enterprise = get_object_or_404(Enterprise, pk=1)
+    extra_context = {}
+    try:
+        enterprise = get_object_or_404(Enterprise, pk=1)
+    except:
+        enterprise = ''
     extra_context = {'enterprise': enterprise}
 
     def get_context_data(self, **kwargs):
