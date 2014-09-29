@@ -5249,3 +5249,13 @@ span.overflow-hidden{
 }
 
 /*-----*/
+
+.transparencia img {
+	max-width: 142px;
+	margin-top: -10px
+}
+
+.facebook img {
+	max-width: 28px;
+	margin-top: 1px;
+}
