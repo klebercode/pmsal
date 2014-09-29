@@ -59,7 +59,6 @@ class Entry(models.Model):
     admin_image.short_description = 'Imagem da Notícia'
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
         super(Entry, self).save(*args, **kwargs)
 
     def get_absolute_url(self):

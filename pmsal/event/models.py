@@ -2,7 +2,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
 from tinymce import models as tinymce_models
@@ -23,7 +22,6 @@ class Calendar(models.Model):
     body = tinymce_models.HTMLField(_(u'Descrição do Evento'))
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
         super(Calendar, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
