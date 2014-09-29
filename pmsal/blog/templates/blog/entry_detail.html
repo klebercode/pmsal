@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load thumbnail %}
+
 {% block nav_blog %} class="active"{% endblock %}
 
 {% block content %}
@@ -28,7 +30,11 @@
                     <div class="row-fluid">
                         <div class="span12 blog-content">
                             <div class="post-thumbnail">
-                                <img src="{{ object.image.url }}" alt="{{ object.title }}">
+                                {% thumbnail object.image "678x542" crop="center" format="PNG" as im %}
+                                    <img src="{{ im.url }}" alt="{{ object.title }}" class="img-responsive">
+                                {% empty %}
+                                    <p>Sem Imagem</p>
+                                {% endthumbnail %}
                             </div>
                             <div class="page-header">
                                 <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>

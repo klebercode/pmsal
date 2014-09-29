@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load thumbnail %}
+
 {% block nav_blog %} class="active"{% endblock %}
 
 {% block content %}
@@ -44,7 +46,11 @@
                                 </small>
                                 <div class="row-fluid">
                                     <div class="span4">
-                                        <p><img src="{{ object.image.url }}" width="100%" /></p>
+                                        {% thumbnail object.image "216x173" crop="center" format="PNG" as im %}
+                                            <p><img src="{{ im.url }}" alt="{{ object.title }}" class="img-responsive" /></p>
+                                        {% empty %}
+                                            <p>Sem Imagem</p>
+                                        {% endthumbnail %}
                                     </div>
                                     <div class="span8">
                                         {% autoescape off %}

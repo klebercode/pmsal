@@ -7,8 +7,8 @@ from pmsal.blog.models import Entry
 
 
 class EntryAdmin(MCEFilebrowserAdmin):
-    list_filter = ('created', 'author__username', 'tags__name',
-                   'categories__name')
+    list_filter = ('created', 'author__username', 'tags',
+                   'categories')
     list_display = ('title', 'created', 'author', 'publish')
     search_fields = ('title', 'created', 'author', 'body')
     date_hierarchy = 'created'

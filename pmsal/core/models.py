@@ -89,7 +89,7 @@ class Enterprise(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(_(u'Nome'), max_length=200)
+    name = models.CharField(_(u'Nome da Categoria'), max_length=200)
     slug = models.SlugField(_(u'Link no site'), max_length=200,
                             unique=True)
     acronym = models.CharField(_(u'Sigla'), max_length=50, blank=True,
