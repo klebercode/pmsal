@@ -62,6 +62,6 @@ class CalendarListView(EnterpriseExtraContext, generic.ListView):
 
 class CalendarDateDetailView(EnterpriseExtraContext, generic.DateDetailView):
     model = Calendar
-    date_field = 'date_pub'
+    date_field = 'date_start'
     make_object_list = True
     allow_future = True
