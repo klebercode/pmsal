@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load thumbnail %}
+
 {% block nav_home %} class="active"{% endblock %}
 
 {% block content %}
@@ -8,8 +10,15 @@
     <div class="row-fluid">
         <div class="span12">
             <div id="owl-demo" class="owl-carousel owl-theme">
-                <div class="item"><img src="http://placehold.it/940x250/cccccc/FFFFFF"></div>
-                <div class="item"><img src="http://placehold.it/940x250/cccccc/FFFFFF"></div>
+                {% for ban in super_banner_list %}
+                    <a href="{% if ban.link %}{{ ban.link }}{% else %}#{% endif %}">
+                    {% thumbnail ban.image "940x250" crop="center" format="PNG" as im %}
+                        <img src="{{ im.url }}" alt="{{ ban.title }}">
+                    {% empty %}
+                        <img src="http://placehold.it/940x250/cccccc/FFFFFF" alt="{{ ban.title }}">
+                    {% endthumbnail %}
+                    </a>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -25,8 +34,15 @@
                 </div>
                 <div class="span7 pull-right"> <!-- 520x200 -->
                     <div id="owl-demo2" class="owl-carousel owl-theme">
-                        <div class="item"><img src="{{ STATIC_URL }}img/foto_06_banner.jpg"></div>
-                        <div class="item"><img src="{{ STATIC_URL }}img/foto_05_banner.jpg"></div>
+                        {% for ban in second_banner_list %}
+                            <a href="{% if ban.link %}{{ ban.link }}{% else %}#{% endif %}">
+                            {% thumbnail ban.image "520x200" crop="center" format="PNG" as im %}
+                                <img src="{{ im.url }}" alt="{{ ban.title }}">
+                            {% empty %}
+                                <img src="http://placehold.it/520x200/cccccc/FFFFFF" alt="{{ ban.title }}">
+                            {% endthumbnail %}
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -38,66 +54,42 @@
             <div class="row-fluid content-home">
                 <div class="span12 work">
                     <div class="row-fluid">
-                        <div class="span3">
+                        <div class="span12">
                             <div class="page-header">
                                 <h2>Novidades</h2>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque.</p>
-                            <p><a href="#">Mais Notícias &raquo;</a></p>
                         </div>
+                    </div>
                         <!-- break -->
-                        <div class="span9">
+                    <div class="row-fluid">
+                        <div class="span12">
                             <div class="row-fluid">
                                 <ul class="thumbnails">
-                                  <li class="span4">
-                                    <div class="thumbnail">
-                                        <div class="thumbnail-body">
-                                            <div class="wrapper-image">
-                                                <a href="http://placehold.it/216x144/cccccc/FFFFFF" class="galeri" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit">
-                                                    <img src="http://placehold.it/216x144/cccccc/FFFFFF" alt="">
-                                                </a>
+                                  {% for blog in blog_list %}
+                                      <li class="span3">
+                                        <div class="thumbnail">
+                                            <div class="thumbnail-body">
+                                                <div class="wrapper-image">
+                                                    <a href="{{ blog.get_absolute_url }}" class="galeri" title="{{ blog.title }}">
+                                                        {% thumbnail blog.image "213x142" crop="center" format="PNG" as im %}
+                                                            <img src="{{ im.url }}" alt="{{ blog.title }}">
+                                                        {% empty %}
+                                                            <img src="http://placehold.it/216x144/cccccc/FFFFFF" alt="{{ blog.title }}">
+                                                        {% endthumbnail %}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="thumbnail-title">
+                                                <h2><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h2>
                                             </div>
                                         </div>
-                                        <div class="thumbnail-title">
-                                            <h2><a href="#">Content Title</a></h2>
-                                        </div>
-                                    </div>
-                                  </li>
-                                  <!-- break -->
-                                  <li class="span4">
-                                    <div class="thumbnail">
-                                        <div class="thumbnail-body">
-                                            <div class="wrapper-image">
-                                                <a href="http://placehold.it/216x144/cccccc/FFFFFF" class="galeri" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit">
-                                                    <img src="http://placehold.it/216x144/cccccc/FFFFFF" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail-title">
-                                            <h2><a href="#">Content Title</a></h2>
-                                        </div>
-                                    </div>
-                                  </li>
-                                  <!-- break -->
-                                  <li class="span4">
-                                    <div class="thumbnail">
-                                        <div class="thumbnail-body">
-                                            <div class="wrapper-image">
-                                                <a href="http://placehold.it/216x144/cccccc/FFFFFF" class="galeri" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit">
-                                                    <img src="http://placehold.it/216x144/cccccc/FFFFFF" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="thumbnail-title">
-                                            <h2><a href="#">Content Title</a></h2>
-                                        </div>
-                                    </div>
-                                  </li>
-                                  <!-- break -->
+                                      </li>
+                                      <!-- break -->
+                                  {% endfor %}
                                 </ul>
+                                <a href="{% url 'blog:home' %}" class="pull-right"><i class="icon-plus"></i> mais notícias</a>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -111,81 +103,30 @@
                     <div id="bloco-calendario">
                         <label><i class="icon-calendar"></i> CALENDÁRIO DA PREFEITURA</label>
                         <ul>
-                            <li>
-                                <div class="data"><h2>22</h2>&nbsp;<h4>AGO</h4></div>
-                                <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
-                                <br class="clearfloat">
-                            </li>
-                            <li>
-                                <div class="data"><h2>25</h2>&nbsp;<h4>AGO</h4></div>
-                                <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
-                                <br class="clearfloat">
-                            </li>
-                            <li>
-                                <div class="data"><h2>29</h2>&nbsp;<h4>AGO</h4></div>
-                                <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
-                                <br class="clearfloat">
-                            </li>
-                            <li>
-                                <div class="data"><h2>01</h2>&nbsp;<h4>SET</h4></div>
-                                <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
-                                <br class="clearfloat">
-                            </li>
-                            <li>
-                                <div class="data"><h2>05</h2>&nbsp;<h4>SET</h4></div>
-                                <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
-                                <br class="clearfloat">
-                            </li>
-                            <li>
-                                <div class="data"><h2>05</h2>&nbsp;<h4>SET</h4></div>
-                                <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
-                                <br class="clearfloat">
-                            </li>
+                            {% for cal in calendar_list %}
+                                <li>
+                                    <div class="data"><h2>{{ cal.date_start|date:"d" }}</h2>&nbsp;<h4>{{ cal.date_start|date:"M" }}</h4></div>
+                                    <a href="{{ cal.get_absolute_url }}">{{ cal.title }}</a>
+                                    <br class="clearfloat">
+                                </li>
+                            {% endfor %}
                         </ul>
-                        <a href="#" class="btn btn-red pull-right"><i class="icon-plus"></i> calendário completo</a>
+                        <a href="{% url 'event:home' %}" class="btn btn-red pull-right"><i class="icon-plus"></i> calendário completo</a>
                     </div>
                 </div>
                 <div class="span7">
                     <div class="row-fluid">
                         <ul class="thumbnails">
-                          <li class="span4">
-                            <div class="thumbnail">
-                                <img src="{{ STATIC_URL }}img/bolsa-familia.jpg" alt="Bolsa Família">
-                            </div>
-                          </li>
-                          <!-- break -->
-                          <li class="span4">
-                            <div class="thumbnail">
-                                <img src="{{ STATIC_URL }}img/minha-casa-minha-vida.jpg" alt="Minha Casa Minha Vida">
-                            </div>
-                          </li>
-                          <!-- break -->
-                          <li class="span4">
-                            <div class="thumbnail">
-                                <img src="{{ STATIC_URL }}img/cras.jpg" alt="CRAS">
-                            </div>
-                          </li>
-                        </ul>
-                    </div>
-                    <div class="row-fluid">
-                        <ul class="thumbnails">
-                          <li class="span4">
-                            <div class="thumbnail">
-                                <img src="{{ STATIC_URL }}img/bolsa-escola.jpg" alt="Bolsa Família">
-                            </div>
-                          </li>
-                          <!-- break -->
-                          <li class="span4">
-                            <div class="thumbnail">
-                                <img src="{{ STATIC_URL }}img/pro-jovem.jpg" alt="Minha Casa Minha Vida">
-                            </div>
-                          </li>
-                          <!-- break -->
-                          <li class="span4">
-                            <div class="thumbnail">
-                                <img src="{{ STATIC_URL }}img/cras.jpg" alt="CRAS">
-                            </div>
-                          </li>
+                          {% for program in program_list %}
+                              <li class="span4">
+                                <div class="thumbnail">
+                                    <a href="{{ program.link }}" target="_blank">
+                                        <img src="{{ program.image.url }}" alt="{{ program.name }}">
+                                    </a>
+                                </div>
+                              </li>
+                              <!-- break -->
+                          {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -202,13 +143,13 @@
             <hr class="dotted">
 
             <div id="owl-demo3" class="owl-carousel owl-theme">
-                <div class="item"><img src="{{ STATIC_URL }}img/amupe.jpg"></div>
-                <div class="item"><img src="{{ STATIC_URL }}img/banner_portaltransparencia.jpg"></div>
-                <div class="item"><img src="{{ STATIC_URL }}img/cnm.jpg"></div>
-                <div class="item"><img src="{{ STATIC_URL }}img/tce-pe.jpg"></div>
-                <div class="item"><img src="{{ STATIC_URL }}img/acesso.jpg"></div>
-                <div class="item"><img src="{{ STATIC_URL }}img/portal.jpg"></div>
-                <div class="item"><img src="{{ STATIC_URL }}img/samu.jpg"></div>
+                {% for link in link_list %}
+                    <div class="item">
+                        <a href="{{ link.link }}" target="_blank">
+                            <img src="{{ link.image.url }}" alt="{{ link.name }}">
+                        </a>
+                    </div>
+                {% endfor %}
             </div>
 
             <hr class="dotted">
@@ -217,4 +158,33 @@
     </div>
     <!-- end:links -->
 
+    <!-- start:popup_banner -->
+    {% if popup_banner_list %}
+        <div class="modal hide fade" id="myModal">
+          <div class="modal-body">
+            {% for ban in popup_banner_list %}
+              {% thumbnail ban.image "800" crop="center" format="PNG" as im %}
+                <img src="{{ im.url }}" alt="{{ ban.title }}">
+              {% empty %}
+                <img src="http://placehold.it/800x600/cccccc/FFFFFF" alt="{{ ban.title }}">
+              {% endthumbnail %}
+            {% endfor %}
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-red" data-dismiss="modal">Fechar</a>
+          </div>
+        </div>
+    {% endif %}
+    <!-- end:popup_banner -->
+
 {% endblock content %}
+
+{% block extra_js_bot %}
+
+    <script type="text/javascript">
+        $(window).load(function(){
+            $('#myModal').modal('show');
+        });
+    </script>
+
+{% endblock extra_js_bot %}

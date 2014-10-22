@@ -6,11 +6,22 @@ from django.template import RequestContext
 
 from pmsal.context_processors import enterprise_proc
 
+from pmsal.core.models import Link, Program, Banner
+from pmsal.event.models import Calendar
+from pmsal.blog.models import Entry
+
 from pmsal.core.forms import ContactForm
 
 
 def home(request):
     context = {}
+    context['link_list'] = Link.objects.all()
+    context['program_list'] = Program.objects.all()
+    context['calendar_list'] = Calendar.objects.all()
+    context['blog_list'] = Entry.published.all()[:4]
+    context['super_banner_list'] = Banner.published.filter(type=1)
+    context['second_banner_list'] = Banner.published.filter(type=2)
+    context['popup_banner_list'] = Banner.published.filter(type=3)[:1]
 
     return render(request, 'home.html', context,
                   context_instance=RequestContext(request,

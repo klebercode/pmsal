@@ -4,10 +4,10 @@
 <html lang="pt" class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>{{ enterprise.name }}</title>
+    <title>{{ enterprise.name }}{% block title %}{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <meta name="description" content="Prefeitura Municipal de Saloá">
+    <meta name="keywords" content="prefeitura, municipal, saloa, governo, pernambuco, pe, brasil, brasilia, congresso, camara, deputado, prefeito, vereador">
     <meta name="author" content="OW7">
 
 	<!-- Owl Carousel Assets -->
@@ -34,8 +34,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-    <link rel="shortcut icon" href="../assets/ico/favicon.png">
-	-->
+    -->
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.png">
 
     {% block extra_js_top %}
 
@@ -272,12 +272,17 @@
                 items: 7,
                 /*itemsDesktop : [1199,3],
                 itemsDesktopSmall : [979,3]*/
-                itemsDesktop : [1199,8], //5 items between 1000px and 901px
-                itemsDesktopSmall : [979,6], // betweem 900px and 601px
+                itemsDesktop: [1199,8], //5 items between 1000px and 901px
+                itemsDesktopSmall: [979,6], // betweem 900px and 601px
                 itemsTablet: [600,4], //2 items between 600 and 0
-                itemsMobile : false // itemsMobile disabled - inherit from itemsTablet option
+                itemsMobile: false, // itemsMobile disabled - inherit from itemsTablet option
+                pagination: false,
             });
 		});
 	</script>
+
+    {% block extra_js_bot %}
+
+    {% endblock extra_js_bot %}
   </body>
 </html>

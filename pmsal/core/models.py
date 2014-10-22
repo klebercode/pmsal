@@ -4,6 +4,17 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 
+import uuid
+import os
+
+from sorl.thumbnail import ImageField
+
+try:
+    from PIL import Image, ImageOps
+except ImportError:
+    import Image
+    import ImageOps
+
 
 STATE_CHOICES = (
     ('AC', u'Acre'),
@@ -33,6 +44,12 @@ STATE_CHOICES = (
     ('SP', u'São Paulo'),
     ('SE', u'Sergipe'),
     ('TO', u'Tocantins'),
+)
+
+BANNER_CHOICES = (
+    (1, _(u'Super Banner (Home)')),
+    (2, _(u'Banner Secundário (Home)')),
+    (3, _(u'Popup Banner')),
 )
 
 
@@ -109,3 +126,176 @@ class Category(models.Model):
         verbose_name = _(u'Categoria')
         verbose_name_plural = _(u'Categorias')
         ordering = ['name']
+
+
+class Link(models.Model):
+    name = models.CharField(_(u'Nome'), max_length=100)
+    link = models.URLField(_(u'Link do Site'))
+    image = ImageField(_(u'Logo'), upload_to='link')
+
+    def admin_image(self):
+        return '<img src="%s" width="120" />' % self.image.url
+    admin_image.allow_tags = True
+    admin_image.short_description = 'Logo do Link'
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.image:
+            return
+
+        super(Link, self).save(*args, **kwargs)
+
+        image = Image.open(self.image)
+
+        def scale_dimensions(width, height, longest_side):
+            if width > height:
+                if width > longest_side:
+                    ratio = longest_side*1./width
+                    return (int(width*ratio), int(height*ratio))
+                elif height > longest_side:
+                    ratio = longest_side*1./height
+                    return (int(width*ratio), int(height*ratio))
+            return (width, height)
+
+        (width, height) = image.size
+        (width, height) = scale_dimensions(width, height, longest_side=120)
+
+        size = (width, height)
+        """ redimensiona esticando """
+        # image = image.resize(size, Image.ANTIALIAS)
+        """ redimensiona proporcionalmente """
+        image.thumbnail(size, Image.ANTIALIAS)
+        """ redimensiona cortando para encaixar no tamanho """
+        # image = ImageOps.fit(image, size, Image.ANTIALIAS)
+        image.save(self.image.path, 'JPEG', quality=99)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+    class Meta:
+        verbose_name = _(u'Link Útil')
+        verbose_name_plural = _(u'Links Úteis')
+        ordering = ['name']
+
+
+class Program(models.Model):
+    name = models.CharField(_(u'Nome'), max_length=100)
+    link = models.URLField(_(u'Link do Site'))
+    image = ImageField(_(u'Logo'), upload_to='program')
+
+    def admin_image(self):
+        return '<img src="%s" width="120" />' % self.image.url
+    admin_image.allow_tags = True
+    admin_image.short_description = 'Logo do Programa'
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.image:
+            return
+
+        super(Program, self).save(*args, **kwargs)
+
+        image = Image.open(self.image)
+
+        def scale_dimensions(width, height, longest_side):
+            if width > height:
+                if width > longest_side:
+                    ratio = longest_side*1./width
+                    return (int(width*ratio), int(height*ratio))
+                elif height > longest_side:
+                    ratio = longest_side*1./height
+                    return (int(width*ratio), int(height*ratio))
+            return (width, height)
+
+        (width, height) = image.size
+        (width, height) = scale_dimensions(width, height, longest_side=120)
+
+        size = (width, height)
+        """ redimensiona esticando """
+        # image = image.resize(size, Image.ANTIALIAS)
+        """ redimensiona proporcionalmente """
+        image.thumbnail(size, Image.ANTIALIAS)
+        """ redimensiona cortando para encaixar no tamanho """
+        # image = ImageOps.fit(image, size, Image.ANTIALIAS)
+        image.save(self.image.path, 'JPEG', quality=99)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+    class Meta:
+        verbose_name = _(u'Programa')
+        verbose_name_plural = _(u'Programas')
+        ordering = ['name']
+
+
+class BannerManager(models.Manager):
+    def get_queryset(self):
+        return super(BannerManager,
+                     self).get_queryset().all()
+
+
+class BannerPublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(BannerPublishedManager,
+                     self).get_queryset().filter(publish=True)
+
+
+class Banner(models.Model):
+    def get_file_path(instance, filename):
+        ext = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4(), ext)
+        return os.path.join('banner', filename)
+
+    type = models.IntegerField(_(u'Banner'), choices=BANNER_CHOICES, default=1)
+    image = ImageField(_(u'Banner'), upload_to=get_file_path)
+    title = models.CharField(_(u'Título do banner'), max_length=100)
+    link = models.URLField(_(u'Link do banner'), blank=True, null=True)
+    publish = models.BooleanField(_(u'Visível no site?'), default=True)
+
+    objects = BannerManager()
+    published = BannerPublishedManager()
+
+    def admin_image(self):
+        return '<img src="%s" width="200" />' % self.image.url
+    admin_image.allow_tags = True
+    admin_image.short_description = 'Imagem'
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.image:
+            return
+
+        super(Banner, self).save(*args, **kwargs)
+
+        image = Image.open(self.image)
+
+        def scale_dimensions(width, height, longest_side):
+            if width > height:
+                if width > longest_side:
+                    ratio = longest_side*1./width
+                    return (int(width*ratio), int(height*ratio))
+                elif height > longest_side:
+                    ratio = longest_side*1./height
+                    return (int(width*ratio), int(height*ratio))
+            return (width, height)
+
+        if self.type == 2:
+            side = 520
+        else:
+            side = 940
+
+        (width, height) = image.size
+        (width, height) = scale_dimensions(width, height, longest_side=side)
+
+        size = (width, height)
+        """ redimensiona esticando """
+        # image = image.resize(size, Image.ANTIALIAS)
+        """ redimensiona proporcionalmente """
+        image.thumbnail(size, Image.ANTIALIAS)
+        """ redimensiona cortando para encaixar no tamanho """
+        # image = ImageOps.fit(image, size, Image.ANTIALIAS)
+        image.save(self.image.path, 'JPEG', quality=99)
+
+    def __unicode__(self):
+        return unicode(self.title)
+
+    class Meta:
+        verbose_name = _(u'Banner')
+        verbose_name_plural = _(u'Banners')
