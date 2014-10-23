@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load thumbnail %}
+
+{% block nav_city_hall %} class="active"{% endblock %}
+
+{% block content %}
+
+    <!-- begin:title -->
+    <div class="row-fluid secretarias">
+        <div class="span12 main-header">
+            <header>
+                <h1>A Prefeitura</h1>
+            </header>
+        </div>
+    </div>
+    <!-- end:title -->
+
+    <!-- begin:content -->
+    <div class="row-fluid">
+        <div class="span12 content-wrapper">
+
+            <!-- begin:body -->
+            <div class="row-fluid content-home">
+                <div class="span12">
+                    <div class="page-header">
+                        <h2>Linha do Tempo</h2>
+                    </div>
+                  <ul class="timeline">
+                    {% for item in timeline_list %}
+                      <li>
+                        <div class="timeline-date">
+                          <h4 class="timeline-title">{{ item.period }}</h4>
+                        </div>
+                      </li>
+                      <li class="{% if forloop.counter|divisibleby:2 %}timeline-inverted{% endif %}">
+                        <div class="timeline-badge"></div>
+                        <div class="timeline-panel">
+                          <div class="timeline-heading">
+                            <h4 class="timeline-title">{{ item.title }}</h4>
+                          </div>
+                          <div class="timeline-body">
+                            {% thumbnail item.image "800" crop="center" format="PNG" as im %}
+                              <img src="{{ im.url }}" class="img-responsive">
+                            {% empty %}
+                              <p>Sem Imagem</p>
+                            {% endthumbnail %}
+                            <p>{{ item.description }}</p>
+                          </div>
+                        </div>
+                      </li>
+                    {% endfor %}
+                  </ul> <!-- / .timeline -->
+                </div>
+            </div>
+            <!-- end:body -->
+
+        </div>
+    </div>
+    <!-- end:content -->
+
+{% endblock content %}

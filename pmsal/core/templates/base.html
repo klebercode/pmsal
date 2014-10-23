@@ -77,7 +77,7 @@
                             <div class="span7">
                                 <div class="search-form">
                                     <div class="input-append">
-                                        <input class="span10" id="appendedInputButton" type="text">
+                                        <input class="span10" id="appendedInputButton" type="text" placeholder="Buscar Notícia...">
                                         <button class="btn btn-red" type="button">
                                             <i class="icon-search"></i>
                                         </button>
@@ -109,10 +109,15 @@
                             <div class="nav-collapse collapse navbar-responsive-collapse">
                                 <ul class="nav">
                                     <li {% block nav_home %}{% endblock %}><a href="{% url 'home' %}">Início</a></li>
-                                    <li {% block nav_city_hall %}{% endblock %}><a href="#">Prefeitura</a></li>
+                                    <li {% block nav_city_hall %}{% endblock %}><a href="{% url 'city' %}">A Prefeitura</a></li>
                                     <li {% block nav_event %}{% endblock %}><a href="{% url 'event:home' %}">Agenda de Eventos</a></li>
-                                    <li {% block nav_turism %}{% endblock %}><a href="#">Turismo</a></li>
+                                    {% for item in prefeitura %}
+                                        {% if item.name == 'Turismo' %}
+                                        <li {% block nav_turism %}{% endblock %}><a href="{{ item.get_absolute_url_prefeitura }}">{{ item.name }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
                                     <li {% block nav_blog %}{% endblock %}><a href="{% url 'blog:home' %}">Notícias</a></li>
+                                    <li {% block nav_bid %}{% endblock %}><a href="{% url 'bid:home' %}">Licitações</a></li>
                                     <li {% block nav_contact %}{% endblock %}><a href="{% url 'contact' %}">Contato</a></li>
                                 </ul>
                             <ul class="nav pull-right">
@@ -138,37 +143,28 @@
 						<div class="widget">
                             <h3>Prefeitura</h3>
                             <ul>
-                                <li><a href="#">O Prefeito</a></li>
-                                <li><a href="#">Agenda do Prefeito</a></li>
-                                <li><a href="#">Contatos e informações de Atendimento</a></li>
-                                <li><a href="#">Competências e Estrutura Organizacional</a></li>
+                                {% for item in prefeitura %}
+                                    <li><a href="{{ item.get_absolute_url_prefeitura }}">{{ item.name }}</a></li>
+                                {% endfor %}
                             </ul>
                             <br>
-							<h3>Impressa</h3>
+							<h3>Imprensa</h3>
 							<ul>
-								<li><a href="#">Notícias</a></li>
-                                <li><a href="#">Fotos</a></li>
-                                <li><a href="#">Eventos</a></li>
-                                <li><a href="#">Agenda Cultural do Município</a></li>
-                                <li><a href="#">Perguntas Frequentes</a></li>
+                                <li><a href="{% url 'event:home' %}">Agenda Cultural</a></li>
+                                <li><a href="{% url 'blog:home' %}">Notícias</a></li>
+                                {% for item in imprensa %}
+                                    <li><a href="{{ item.get_absolute_url_imprensa }}">{{ item.name }}</a></li>
+                                {% endfor %}
 							</ul>
-						</div>
+					</div>
 					</div>
 					<div class="span3">
 						<div class="widget">
 							<h3>Secretarias</h3>
 							<ul>
-								<li><a href="#">Sec. de Administração</a></li>
-								<li><a href="#">Sec. de Finanças</a></li>
-								<li><a href="#">Sec. de Educação</a></li>
-								<li><a href="#">Sec. de Saúde</a></li>
-                                <li><a href="#">Sec. de Ação Social</a></li>
-                                <li><a href="#">Sec. de Agricultura, Pecuária e Abastacimento</a></li>
-                                <li><a href="#">Sec. de de Viação, Obras e Serviços Urbanos</a></li>
-                                <li><a href="#">Sec. de Controle Interno</a></li>
-                                <li><a href="#">Sec. de Cultura, Turismo e Esporte</a></li>
-                                <li><a href="#">Sec. de Governo</a></li>
-                                <li><a href="#">Sec. de Desenvolvimento</a></li>
+                                {% for item in secretarias %}
+                                    <li><a href="{{ item.get_absolute_url_secretaria }}">{{ item.name }}</a></li>
+                                {% endfor %}
 							</ul>
 						</div>
 					</div>
@@ -176,17 +172,16 @@
                         <div class="widget">
                             <h3>Transparência</h3>
                             <ul>
-                                <li><a href="#">Avisos de Licitações</a></li>
-                                <li><a href="#">Licitações Abertas, em andamento e realizadas</a></li>
-                                <li><a href="#">Relatórios Contábeis</a></li>
-                                <li><a href="#">Registro de Despesas</a></li>
-                                <li><a href="#">Registro de Receitas</a></li>
-                                <li><a href="#">Prestação de Contas</a></li>
-                                <li><a href="#">Transferências Financeiras</a></li>
-                                <li><a href="#">Programas, Ações, Projetos e Obras</a></li>
-                                <li><a href="#">Planos, Orçamentos, LDO e LOA</a></li>
-                                <li><a href="#">RREO, RGF e Versões Simplificadas</a></li>
-                                <li><a href="#">Parecer Prévio</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Licitações Abertas, em andamento e realizadas</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Relatórios Contábeis</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Registro de Despesas</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Registro de Receitas</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Prestação de Contas</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Transferências Financeiras</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Programas, Ações, Projetos e Obras</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Planos, Orçamentos, LDO e LOA</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">RREO, RGF e Versões Simplificadas</a></li>
+                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Parecer Prévio</a></li>
                             </ul>
                         </div>
 					</div>
@@ -220,7 +215,7 @@
 				<div class="c-right">
 					<ul>
 						<li><a href="{% url 'home' %}">Início</a></li>
-						<li><a href="#">Prefeitura</a></li>
+						<li><a href="{% url 'city' %}">A Prefeitura</a></li>
 						<li><a href="{% url 'contact' %}">Contato</a></li>
                         <li><a href="http://ow7.com.br/"><strong>OW7</strong></a></li>
 					</ul>

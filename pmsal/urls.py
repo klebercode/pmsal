@@ -13,14 +13,22 @@ urlpatterns = patterns(
     url(r'^$', 'pmsal.core.views.home', name='home'),
     # url(r'^institucional/', 'canaa.core.views.institutional',
     #     name='institutional'),
-    # url(r'^representantes/', 'canaa.core.views.sellers', name='sellers'),
-    # url(r'^marketing/', 'canaa.core.views.marketing', name='marketing'),
+
+    url(r'^a-prefeitura/', 'pmsal.core.views.city', name='city'),
     url(r'^contato/', 'pmsal.core.views.contact', name='contact'),
 
-    # url(r'^trabalhe-conosco/', include('canaa.talents.urls')),
+    url(r'^prefeitura/(?P<slug>[-\w]+)/$', 'pmsal.core.views.content',
+        name='prefeitura'),
+    url(r'^imprensa/(?P<slug>[-\w]+)/$', 'pmsal.core.views.content',
+        name='imprensa'),
+    url(r'^secretaria/(?P<slug>[-\w]+)/$', 'pmsal.core.views.content',
+        name='secretaria'),
+    # url(r'^transparencia/(?P<slug>[-\w]+)/$', 'pmsal.core.views.content',
+    #     name='transparencia'),
+
     url(r'^agenda/', include('pmsal.event.urls', namespace='event')),
     url(r'^noticias/', include('pmsal.blog.urls', namespace='blog')),
-    # url(r'^produtos/', include('canaa.catalog.urls', namespace='group')),
+    url(r'^licitacoes/', include('pmsal.bid.urls', namespace='bid')),
 
     url(r'^admin/filebrowser/', include(site.urls)),
     url(r'^grappelli/', include('grappelli.urls')),

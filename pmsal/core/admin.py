@@ -1,8 +1,10 @@
 # coding: utf-8
 from django.contrib import admin
 
+from mce_filebrowser.admin import MCEFilebrowserAdmin
+
 from pmsal.core.models import (Enterprise, Social, Category, Link, Program,
-                               Banner)
+                               Banner, Content, Timeline)
 
 
 class EnterpriseAdmin(admin.ModelAdmin):
@@ -13,8 +15,9 @@ class EnterpriseAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'acronym')
-    search_fields = ('name', 'acronym')
+    list_filter = ('area',)
+    list_display = ('name', 'acronym', 'area')
+    search_fields = ('name', 'acronym', 'area')
     prepopulated_fields = {'slug': ('name',)}
 
 
@@ -34,9 +37,23 @@ class BannerAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 
+class ContentAdmin(MCEFilebrowserAdmin):
+    list_filter = ('category',)
+    list_display = ('category', 'admin_body')
+    search_fields = ('body',)
+
+
+class TimelineAdmin(admin.ModelAdmin):
+    list_filter = ('period',)
+    list_display = ('title', 'period', 'admin_image', 'description')
+    search_fields = ('title', 'period', 'description')
+
+
 admin.site.register(Enterprise, EnterpriseAdmin)
 admin.site.register(Social)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Link, LinkAdmin)
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(Banner, BannerAdmin)
+admin.site.register(Content, ContentAdmin)
+admin.site.register(Timeline, TimelineAdmin)

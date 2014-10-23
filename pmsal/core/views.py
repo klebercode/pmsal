@@ -6,7 +6,8 @@ from django.template import RequestContext
 
 from pmsal.context_processors import enterprise_proc
 
-from pmsal.core.models import Link, Program, Banner
+from pmsal.core.models import (Link, Program, Banner, Category, Content,
+                               Timeline)
 from pmsal.event.models import Calendar
 from pmsal.blog.models import Entry
 
@@ -44,6 +45,36 @@ def contact(request):
     context['contact_form'] = form
 
     return render(request, 'contact.html', context,
+                  context_instance=RequestContext(request,
+                                                  processors=[enterprise_proc]
+                                                  ))
+
+
+def content(request, slug):
+    context = {}
+
+    category = Category.objects.filter(slug=slug)
+
+    content_list = get_object_or_404(Content, category=category)
+    # try:
+    # except:
+    #     content_list = ''
+
+    context['content_list'] = content_list
+    context['blog_list'] = Entry.published.filter(categories=category)[:4]
+
+    return render(request, 'content.html', context,
+                  context_instance=RequestContext(request,
+                                                  processors=[enterprise_proc]
+                                                  ))
+
+
+def city(request):
+    context = {}
+
+    context['timeline_list'] = Timeline.objects.all()
+
+    return render(request, 'institutional.html', context,
                   context_instance=RequestContext(request,
                                                   processors=[enterprise_proc]
                                                   ))

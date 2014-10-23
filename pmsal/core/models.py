@@ -8,6 +8,7 @@ import uuid
 import os
 
 from sorl.thumbnail import ImageField
+from tinymce import models as tinymce_models
 
 try:
     from PIL import Image, ImageOps
@@ -50,6 +51,13 @@ BANNER_CHOICES = (
     (1, _(u'Super Banner (Home)')),
     (2, _(u'Banner Secundário (Home)')),
     (3, _(u'Popup Banner')),
+)
+
+AREA_CHOICES = (
+    (1, _(u'Prefeitura')),
+    (2, _(u'Imprensa')),
+    (3, _(u'Secretarias')),
+    # (3, _(u'Transparência')),
 )
 
 
@@ -106,18 +114,34 @@ class Enterprise(models.Model):
 
 
 class Category(models.Model):
+    area = models.IntegerField(_(u'Área'), choices=AREA_CHOICES, default=1)
     name = models.CharField(_(u'Nome da Categoria'), max_length=200)
-    slug = models.SlugField(_(u'Link no site'), max_length=200,
+    slug = models.SlugField(_(u'Link no Site'), max_length=200,
                             unique=True)
     acronym = models.CharField(_(u'Sigla'), max_length=50, blank=True,
                                null=True)
+    order = models.IntegerField(_(u'Ordem do Menu'), default=0,
+                                help_text='Caso o valor seja zero o menu \
+                                ficará em ordem alfabética.')
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Category, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.name)
+    #     super(Category, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('blog:category_list', kwargs={'pk': self.pk})
+
+    def get_absolute_url_prefeitura(self):
+        return reverse('prefeitura', kwargs={'slug': self.slug})
+
+    def get_absolute_url_imprensa(self):
+        return reverse('imprensa', kwargs={'slug': self.slug})
+
+    def get_absolute_url_secretaria(self):
+        return reverse('secretaria', kwargs={'slug': self.slug})
+
+    # def get_absolute_url_transparencia(self):
+    #     return reverse('transparencia', kwargs={'slug': self.slug})
 
     def __unicode__(self):
         return unicode(self.name)
@@ -125,7 +149,27 @@ class Category(models.Model):
     class Meta:
         verbose_name = _(u'Categoria')
         verbose_name_plural = _(u'Categorias')
-        ordering = ['name']
+        ordering = ['order', 'name']
+
+
+class Content(models.Model):
+    category = models.ForeignKey('Category', verbose_name=_(u'Página'),
+                                 default=1)
+    body = tinymce_models.HTMLField(_(u'Conteúdo da Página'))
+
+    def admin_body(self):
+        if self.body:
+            return self.body[:150]
+    admin_body.allow_tags = True
+    admin_body.short_description = 'Conteúdo da Página'
+
+    def __unicode__(self):
+        return unicode(self.pk)
+
+    class Meta:
+        verbose_name = _(u'Página')
+        verbose_name_plural = _(u'Páginas')
+        ordering = ['category']
 
 
 class Link(models.Model):
@@ -299,3 +343,65 @@ class Banner(models.Model):
     class Meta:
         verbose_name = _(u'Banner')
         verbose_name_plural = _(u'Banners')
+
+
+class Timeline(models.Model):
+    def get_file_path(instance, filename):
+        ext = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4(), ext)
+        return os.path.join('timeline', filename)
+
+    title = models.CharField(_(u'Título'), max_length=50)
+    description = models.TextField(_(u'Descrição'),
+                                   help_text='Uma breve história')
+    image = ImageField(_(u'Imagem'), upload_to=get_file_path,
+                       blank=True, null=True)
+    period = models.CharField(_(u'Ano'), max_length=4, unique=True)
+
+    def admin_image(self):
+        if self.image:
+            return '<img src="%s" width="200" />' % self.image.url
+        else:
+            return 'Sem imagem'
+    admin_image.allow_tags = True
+    admin_image.short_description = 'Imagem'
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.image:
+            return
+
+        super(Timeline, self).save(*args, **kwargs)
+
+        image = Image.open(self.image)
+
+        def scale_dimensions(width, height, longest_side):
+            if width > height:
+                if width > longest_side:
+                    ratio = longest_side*1./width
+                    return (int(width*ratio), int(height*ratio))
+                elif height > longest_side:
+                    ratio = longest_side*1./height
+                    return (int(width*ratio), int(height*ratio))
+            return (width, height)
+
+        side = 800
+
+        (width, height) = image.size
+        (width, height) = scale_dimensions(width, height, longest_side=side)
+
+        size = (width, height)
+        """ redimensiona esticando """
+        # image = image.resize(size, Image.ANTIALIAS)
+        """ redimensiona proporcionalmente """
+        image.thumbnail(size, Image.ANTIALIAS)
+        """ redimensiona cortando para encaixar no tamanho """
+        # image = ImageOps.fit(image, size, Image.ANTIALIAS)
+        image.save(self.image.path, 'JPEG', quality=99)
+
+    def __unicode__(self):
+        return "%s (%s)" % (unicode(self.title), self.period)
+
+    class Meta:
+        verbose_name = _(u'Linha do Tempo')
+        verbose_name_plural = _(u'Linha do Tempo')
+        ordering = ['-period']

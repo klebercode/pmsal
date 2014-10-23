@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% load thumbnail %}
+
+{% block nav_content %} class="active"{% endblock %}
+
+{% block content %}
+
+    <!-- begin:title -->
+    <div class="row-fluid {{ content_list.category.get_area_display|lower }}">
+        <div class="span12 main-header">
+            <header>
+                <h1>{{ content_list.category }}</h1>
+            </header>
+        </div>
+    </div>
+    <!-- end:title -->
+
+    <!-- begin:content -->
+    <div class="row-fluid">
+        <div class="span12 content-wrapper">
+
+            <!-- begin:body -->
+            <div class="row-fluid content-home">
+                <div class="span12">
+                    <!--
+                    <div class="page-header">
+                        <h2>Envie sua mensagem</h2>
+                    </div>
+                    -->
+                    {% autoescape off %}
+                    <p>{{ content_list.body|linebreaks|cut:"../../../.." }}</p>
+                    {% endautoescape %}
+                </div>
+            </div>
+            <!-- end:body -->
+
+            {% if blog_list %}
+            <hr class="dotted">
+
+            <!-- begin:recent-blog -->
+            <div class="row-fluid content-home">
+                <div class="span12 work">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="page-header">
+                                <h2>Notícias</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- break -->
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="row-fluid">
+                                <ul class="thumbnails">
+                                  {% for blog in blog_list %}
+                                      <li class="span3">
+                                        <div class="thumbnail">
+                                            <div class="thumbnail-body">
+                                                <div class="wrapper-image">
+                                                    <a href="{{ blog.get_absolute_url }}" class="galeri" title="{{ blog.title }}">
+                                                        {% thumbnail blog.image "213x142" crop="center" format="PNG" as im %}
+                                                            <img src="{{ im.url }}" alt="{{ blog.title }}">
+                                                        {% empty %}
+                                                            <img src="http://placehold.it/216x144/cccccc/FFFFFF" alt="{{ blog.title }}">
+                                                        {% endthumbnail %}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="thumbnail-title">
+                                                <h2><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h2>
+                                            </div>
+                                        </div>
+                                      </li>
+                                      <!-- break -->
+                                  {% endfor %}
+                                </ul>
+                                <a href="{% url 'blog:home' %}" class="pull-right"><i class="icon-plus"></i> notícias</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end:recent-blog -->
+            {% endif %}
+
+        </div>
+    </div>
+    <!-- end:content -->
+
+{% endblock content %}
