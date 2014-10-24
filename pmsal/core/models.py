@@ -143,6 +143,13 @@ class Category(models.Model):
     # def get_absolute_url_transparencia(self):
     #     return reverse('transparencia', kwargs={'slug': self.slug})
 
+    def save(self, *args, **kwargs):
+        super(Category, self).save(*args, **kwargs)
+        c = Content.objects.filter(category=self.pk)
+        if not c:
+            Content.objects.get_or_create(
+                category_id=self.pk, body='Aguardando conteúdo...')
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -154,7 +161,7 @@ class Category(models.Model):
 
 class Content(models.Model):
     category = models.ForeignKey('Category', verbose_name=_(u'Página'),
-                                 default=1)
+                                 default=1, unique=True)
     body = tinymce_models.HTMLField(_(u'Conteúdo da Página'))
 
     def admin_body(self):
