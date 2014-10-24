@@ -121,7 +121,7 @@
                               <li class="span4">
                                 <div class="thumbnail">
                                     <a href="{{ program.link }}" target="_blank">
-                                        <img src="{{ program.image.url }}" alt="{{ program.name }}">
+                                        <img src="{{ program.image.url }}" alt="{{ program.name }}" title="{{ program.name }}">
                                     </a>
                                 </div>
                               </li>
@@ -146,7 +146,7 @@
                 {% for link in link_list %}
                     <div class="item">
                         <a href="{{ link.link }}" target="_blank">
-                            <img src="{{ link.image.url }}" alt="{{ link.name }}">
+                            <img src="{{ link.image.url }}" alt="{{ link.name }}" title="{{ link.name }}">
                         </a>
                     </div>
                 {% endfor %}
