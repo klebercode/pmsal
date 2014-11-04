@@ -38,13 +38,13 @@ class PublishedManager(models.Manager):
 
 
 class Entry(models.Model):
+    created = models.DateTimeField(_(u'Data de Criação'))
     title = models.CharField(_(u'Título da Notícia'), max_length=200)
     slug = models.SlugField(_(u'Link no Site'), max_length=200,
                             unique=True)
     image = ImageField(_(u'Imagem da Notícia'), upload_to='blog')
     body = tinymce_models.HTMLField(_(u'Texto'))
     publish = models.BooleanField(_(u'Publicar no site?'), default=True)
-    created = models.DateTimeField(_(u'Data de Criação'), auto_now_add=True)
     modified = models.DateTimeField(_(u'Data de Modificação'), auto_now=True)
     author = models.ForeignKey(User, verbose_name=_(u'Autor'),
                                editable=False, default=get_current_user)

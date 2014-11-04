@@ -34,7 +34,8 @@ class EntryDayArchiveView(DayArchiveView):
 
 
 class EntryListView(EnterpriseExtraContext,  generic.ListView):
-    model = Entry
+    # model = Entry
+    queryset = Entry.published.all()
     template_name = 'blog/entry_home.html'
     # TODO: mudar a paginacao
     paginate_by = 10
@@ -60,7 +61,8 @@ class EntryListView(EnterpriseExtraContext,  generic.ListView):
 
 
 class EntryDateDetailView(EnterpriseExtraContext, generic.DateDetailView):
-    model = Entry
+    # model = Entry
+    queryset = Entry.published.all()
     date_field = 'created'
     make_object_list = True
     allow_future = True
