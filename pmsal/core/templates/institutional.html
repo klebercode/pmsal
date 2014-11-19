@@ -4,6 +4,13 @@
 
 {% block nav_city_hall %} class="active"{% endblock %}
 
+{% block extra_js_top %}
+
+  <link rel="stylesheet" href="{{ STATIC_URL }}timeline/css/style.css">
+  <script src="{{ STATIC_URL }}timeline/js/modernizr.js"></script>
+
+{% endblock extra_js_top %}
+
 {% block content %}
 
     <!-- begin:title -->
@@ -26,6 +33,39 @@
                     <div class="page-header">
                         <h2>Linha do Tempo</h2>
                     </div>
+
+                    <div class="content">
+                      {% for item in timeline_list %}
+                      <div class="portfolio-item group{% if forloop.first %} first{% endif %}">
+                        <div class="portfolio-info">
+                          <div class="date"><h4>{{ item.period }}</h4></div>
+                          <div class="description">
+                            <h4>{{ item.title }}</h4>
+                            {{ item.description }}
+                          </div>
+                        </div>
+                        <div class="portfolio-image">
+                          {% thumbnail item.image "800" crop="center" format="PNG" as im %}
+                            <img src="{{ im.url }}" class="img-responsive" alt="{{ item.title }}">
+                          {% empty %}
+                            <p>Sem Imagem</p>
+                          {% endthumbnail %}
+                        </div>
+                      </div>
+                      {% endfor %}
+<!--
+                      <div class="portfolio-item group loading-wrap" style="display:none">
+                        <div class="portfolio-info">
+                        </div>
+                        <div class="portfolio-image">
+                          <div class="loading">
+                            <img src="{{ STATIC_URL }}timeline/images/loading.png" alt="Carregando" class="rotate">&nbsp;Carregando...
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+-->
+<!--
                   <ul class="timeline">
                     {% for item in timeline_list %}
                       <li>
@@ -33,7 +73,7 @@
                           <h4 class="timeline-title">{{ item.period }}</h4>
                         </div>
                       </li>
-                      <li class="{% if forloop.counter|divisibleby:2 %}timeline-inverted{% endif %}">
+                      <li {% if forloop.counter|divisibleby:2 %}class="timeline-inverted"{% endif %}>
                         <div class="timeline-badge"></div>
                         <div class="timeline-panel">
                           <div class="timeline-heading">
@@ -50,7 +90,7 @@
                         </div>
                       </li>
                     {% endfor %}
-                  </ul> <!-- / .timeline -->
+                  </ul>--> <!-- / .timeline -->
                 </div>
             </div>
             <!-- end:body -->
@@ -60,3 +100,9 @@
     <!-- end:content -->
 
 {% endblock content %}
+
+{% block extra_js_bot %}
+
+  <script src="{{ STATIC_URL }}timeline/js/app.js"></script>
+
+{% endblock extra_js_bot %}
