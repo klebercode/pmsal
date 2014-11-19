@@ -39,8 +39,7 @@ class ContactForm(forms.Form):
         message_html = render_to_string('contact_mail.html', context)
         msg = EmailMultiAlternatives(subject, message,
                                      'no-reply@saloa.pe.gov.br',
-                                     # ['contato@rhape.com.br']
-                                     ['kleberss@gmail.com'])
+                                     ['contato@saloa.pe.gov.br'])
 
         msg.attach_alternative(message_html, 'text/html')
         msg.send()
