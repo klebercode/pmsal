@@ -72,7 +72,7 @@
 						</div>
                         <div class="span6 pull-right">
                             <div class="span4 transparencia">
-                                <a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/"><img src="{{ STATIC_URL }}img/logo_portal.png" class="img-responsive" style="margin-top: -10px;"></a>
+                                <a href="{% url 'transparency' %}"><img src="{{ STATIC_URL }}img/logo_portal.png" class="img-responsive" style="margin-top: -10px;"></a>
                             </div>
                             <div class="span7">
                                 <div class="search-form">
@@ -121,7 +121,7 @@
                                     <li {% block nav_contact %}{% endblock %}><a href="{% url 'contact' %}">Contato</a></li>
                                 </ul>
                             <ul class="nav pull-right">
-                            	<li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/" target="_blank">Transparência</a>
+                            	<li><a href="{% url 'transparency' %}">Transparência</a>
                             </ul>
                             </div><!-- /.nav-collapse -->
                         </div>
@@ -172,21 +172,21 @@
                         <div class="widget">
                             <h3>Transparência</h3>
                             <ul>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/receita.faces" target="_blank">Registro de Receitas</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/despesa.faces" target="_blank">Registro de Despesas</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/diarias.faces" target="_blank">Gastos com Diárias</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/diarias.faces" target="_blank">Gastos com Passagens Aéreas</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/servidores.faces" target="_blank">Servidores</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/ppa.faces" target="_blank">Plano Plurianual (PPA)</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/ldo.faces" target="_blank">Lei de Diretrizes Orçamentárias (LDO)</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/loa.faces" target="_blank">Lei do Orçamento Anual (LOA)</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/licitacoes.faces" target="_blank">Licitações Abertas, Em Andamento e Realizadas</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/contas.faces" target="_blank">Prestação de Contas</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/rreo.faces" target="_blank">Relatório Resumido da Execução Orçamentária</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/rgf.faces" target="_blank">Relatório de Gestão Fiscal</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/leis.faces" target="_blank">Leis</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/decretos.faces" target="_blank">Decretos</a></li>
-                                <li><a href="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/outros.faces" target="_blank">Outros Atos Oficiais</a></li>
+                                <li><a href="{% url 'transparency' %}">Registro de Receitas</a></li>
+                                <li><a href="{% url 'transparency' %}">Registro de Despesas</a></li>
+                                <li><a href="{% url 'transparency' %}">Gastos com Diárias</a></li>
+                                <li><a href="{% url 'transparency' %}">Gastos com Passagens Aéreas</a></li>
+                                <li><a href="{% url 'transparency' %}">Servidores</a></li>
+                                <li><a href="{% url 'transparency' %}">Plano Plurianual (PPA)</a></li>
+                                <li><a href="{% url 'transparency' %}">Lei de Diretrizes Orçamentárias (LDO)</a></li>
+                                <li><a href="{% url 'transparency' %}">Lei do Orçamento Anual (LOA)</a></li>
+                                <li><a href="{% url 'transparency' %}">Licitações Abertas, Em Andamento e Realizadas</a></li>
+                                <li><a href="{% url 'transparency' %}">Prestação de Contas</a></li>
+                                <li><a href="{% url 'transparency' %}">Relatório Resumido da Execução Orçamentária</a></li>
+                                <li><a href="{% url 'transparency' %}">Relatório de Gestão Fiscal</a></li>
+                                <li><a href="{% url 'transparency' %}">Leis</a></li>
+                                <li><a href="{% url 'transparency' %}">Decretos</a></li>
+                                <li><a href="{% url 'transparency' %}">Outros Atos Oficiais</a></li>
                             </ul>
                         </div>
 					</div>

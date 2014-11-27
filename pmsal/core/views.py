@@ -78,3 +78,10 @@ def city(request):
                   context_instance=RequestContext(request,
                                                   processors=[enterprise_proc]
                                                   ))
+
+
+def transparency(request):
+    context = {}
+
+    return render(request, 'transparenciasaloa.html', context)
+    # return redirect('http://saloa.pe.gov.br/transparencia/')

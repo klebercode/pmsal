@@ -16,6 +16,8 @@ urlpatterns = patterns(
 
     url(r'^a-prefeitura/', 'pmsal.core.views.city', name='city'),
     url(r'^contato/', 'pmsal.core.views.contact', name='contact'),
+    url(r'^transparencia/', 'pmsal.core.views.transparency',
+        name='transparency'),
 
     url(r'^prefeitura/(?P<slug>[-\w]+)/$', 'pmsal.core.views.content',
         name='prefeitura'),
@@ -23,8 +25,6 @@ urlpatterns = patterns(
         name='imprensa'),
     url(r'^secretaria/(?P<slug>[-\w]+)/$', 'pmsal.core.views.content',
         name='secretaria'),
-    # url(r'^transparencia/(?P<slug>[-\w]+)/$', 'pmsal.core.views.content',
-    #     name='transparencia'),
 
     url(r'^agenda/', include('pmsal.event.urls', namespace='event')),
     url(r'^noticias/', include('pmsal.blog.urls', namespace='blog')),
