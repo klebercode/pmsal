@@ -13,7 +13,7 @@
                 {% for ban in super_banner_list %}
                     <a href="{% if ban.link %}{{ ban.link }}{% else %}#{% endif %}">
                     {% thumbnail ban.image "940x250" crop="center" format="PNG" as im %}
-                        <img src="{{ im.url }}" alt="{{ ban.title }}">
+                        <img src="{{ im.url }}" alt="{{ ban.title }}" title="{{ ban.title }}">
                     {% empty %}
                         <img src="http://placehold.it/940x250/cccccc/FFFFFF" alt="{{ ban.title }}">
                     {% endthumbnail %}
@@ -37,7 +37,7 @@
                         {% for ban in second_banner_list %}
                             <a href="{% if ban.link %}{{ ban.link }}{% else %}#{% endif %}">
                             {% thumbnail ban.image "520x200" crop="center" format="PNG" as im %}
-                                <img src="{{ im.url }}" alt="{{ ban.title }}">
+                                <img src="{{ im.url }}" alt="{{ ban.title }}" title="{{ ban.title }}">
                             {% empty %}
                                 <img src="http://placehold.it/520x200/cccccc/FFFFFF" alt="{{ ban.title }}">
                             {% endthumbnail %}
