@@ -75,14 +75,16 @@
                                 <a href="{% url 'transparency' %}"><img src="{{ STATIC_URL }}img/logo_portal.png" class="img-responsive" style="margin-top: -10px;"></a>
                             </div>
                             <div class="span7">
+                                <form role="form" action="/noticias/" method="get">
                                 <div class="search-form">
                                     <div class="input-append">
-                                        <input class="span10" id="appendedInputButton" type="text" placeholder="Buscar Notícia...">
-                                        <button class="btn btn-red" type="button">
+                                        <input id="search" name="search" type="text" class="span10" placeholder="Buscar Notícia...">
+                                        <button class="btn btn-red" type="submit">
                                             <i class="icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
+                                </form>
                             </div>
                             <div class="span1 facebook">
                                 <a href="#"><img src="{{ STATIC_URL }}img/facebook_pmsal_red.png" class="img-responsive"></a>
