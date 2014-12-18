@@ -83,5 +83,9 @@ def city(request):
 def transparency(request):
     context = {}
 
+    pagina = request.GET.get('pagina', '')
+    if pagina:
+        context['pagina'] = pagina
+
     return render(request, 'transparenciasaloa.html', context)
     # return redirect('http://saloa.pe.gov.br/transparencia/')
