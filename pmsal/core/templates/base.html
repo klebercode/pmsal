@@ -72,7 +72,7 @@
 						</div>
                         <div class="span6 pull-right">
                             <div class="span4 transparencia">
-                                <a href="{% url 'transparency' %}"><img src="{{ STATIC_URL }}img/logo_portal.png" class="img-responsive" style="margin-top: -10px;"></a>
+                                <a href="{% url 'transparency' %}" target="_blank"><img src="{{ STATIC_URL }}img/logo_portal.png" class="img-responsive" style="margin-top: -10px;"></a>
                             </div>
                             <div class="span7">
                                 <form role="form" action="/noticias/" method="get">
@@ -123,7 +123,7 @@
                                     <li {% block nav_contact %}{% endblock %}><a href="{% url 'contact' %}">Contato</a></li>
                                 </ul>
                             <ul class="nav pull-right">
-                            	<li><a href="{% url 'transparency' %}">Transparência</a>
+                            	<li><a href="{% url 'transparency' %}" target="_blank">Transparência</a>
                             </ul>
                             </div><!-- /.nav-collapse -->
                         </div>
