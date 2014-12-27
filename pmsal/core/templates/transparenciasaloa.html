@@ -11,6 +11,10 @@
     <meta name="author" content="OW7">
   </head>
   <frameset cols="100%">
+    {% if pagina %}
     <frame src="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/{{ pagina }}.faces">
+    {% else %}
+    <frame src="http://www.tecnosolutions.inf.br/transparencia/saloa/prefeitura/">
+    {% endif %}
   </frameset>
 </HTML>
