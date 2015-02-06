@@ -1,8 +1,6 @@
 # coding: utf-8
 from django.contrib import admin
 
-from mce_filebrowser.admin import MCEFilebrowserAdmin
-
 from pmsal.core.models import (Enterprise, Social, Category, Link, Program,
                                Banner, Content, Timeline)
 
@@ -37,7 +35,7 @@ class BannerAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 
-class ContentAdmin(MCEFilebrowserAdmin):
+class ContentAdmin(admin.ModelAdmin):
     list_filter = ('category',)
     list_display = ('category', 'admin_body')
     search_fields = ('body',)

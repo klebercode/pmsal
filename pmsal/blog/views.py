@@ -56,7 +56,8 @@ class EntryListView(EnterpriseExtraContext,  generic.ListView):
         context['search'] = search
         context['tag_list'] = Entry.tags.most_common()
         # TODO: mudar a forma de carregamento das categorias
-        context['category_list'] = Category.objects.all().order_by('?')[:10]
+        context['category_list'] = Category.objects.filter(area=3
+                                                           ).order_by('?')[:10]
         return context
 
 
