@@ -2,7 +2,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.template.defaultfilters import slugify
 
 import uuid
 import os
@@ -231,7 +230,9 @@ class Link(models.Model):
 class Program(models.Model):
     name = models.CharField(_(u'Nome'), max_length=100)
     link = models.URLField(_(u'Link do Site'))
-    image = ImageField(_(u'Logo'), upload_to='program')
+    image = ImageField(_(u'Logo'), upload_to='program',
+                       help_text=_(u'O nome do arquivo não pode conter \
+                                   espaços em branco e/ou acentuação.'))
 
     def admin_image(self):
         return '<img src="%s" width="120" />' % self.image.url
