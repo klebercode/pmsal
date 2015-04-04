@@ -118,9 +118,9 @@ MEDIA_URL = '/media/'
 
 DEFAULT_FROM_EMAIL = 'Prefeitura de Saloá <no-reply@saloa.pe.gov.br>'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtpi.kinghost.net'
-EMAIL_HOST_USER = 'contato@saloa.pe.gov.br'
-EMAIL_HOST_PASSWORD = 'pmsAl@9090'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 
 
